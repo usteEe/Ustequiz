@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .choices {
+            list-style-type: none;
+            padding: 0;
+        }
+        .choices li {
+            margin-bottom: 10px;
+        }
+        .result {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Welcome to the Quiz Game!</h1>
+        <p>Quiz Master: Justine M. Parungao</p>
+        <p>Location: Cabiao, Nueva Ecija</p>
+        <p>Contact: parungaojustine58@gmail.com</p>
+        <div id="quiz"></div>
+        <button onclick="submitQuiz()">Submit</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What is the capital of France?",
+                choices: ["A. Berlin", "B. Madrid", "C. Paris", "D. Rome"],
+                answer: "C"
+            },
+            {
+                question: "Who wrote 'To Kill a Mockingbird'?",
+                choices: ["A. Harper Lee", "B. J.K. Rowling", "C. Mark Twain", "D. Ernest Hemingway"],
+                answer: "A"
+            },
+            {
+                question: "What is the smallest planet in our solar system?",
+                choices: ["A. Earth", "B. Venus", "C. Mars", "D. Mercury"],
+                answer: "D"
+            },
+            {
+                question: "Which element has the chemical symbol 'O'?",
+                choices: ["A. Gold", "B. Oxygen", "C. Silver", "D. Hydrogen"],
+                answer: "B"
+            },
+            {
+                question: "What year did the Titanic sink?",
+                choices: ["A. 1912", "B. 1913", "C. 1911", "D. 1910"],
+                answer: "A"
+            }
+        ];
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            questions.forEach((q, index) => {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                questionElement.innerHTML = `<p>${q.question}</p>`;
+                const choicesElement = document.createElement('ul');
+                choicesElement.className = 'choices';
+                q.choices.forEach(choice => {
+                    const choiceElement = document.createElement('li');
+                    choiceElement.innerHTML = `<label><input type="radio" name="question${index}" value="${choice[0]}"> ${choice}</label>`;
+                    choicesElement.appendChild(choiceElement);
+                });
+                questionElement.appendChild(choicesElement);
+                quizContainer.appendChild(questionElement);
+            });
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="question${index}"]:checked`);
+                if (selectedOption && selectedOption.value === q.answer) {
+                    score++;
+                }
+            });
+            const resultContainer = document.getElementById('result');
+            resultContainer.innerHTML = `Your final score is ${score} out of ${questions.length}.`;
+        }
+
+        window.onload = loadQuiz;
+    </script>
+</body>
+</html>
